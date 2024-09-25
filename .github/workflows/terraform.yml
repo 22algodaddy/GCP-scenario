@@ -39,7 +39,7 @@ jobs:
 
     # Step 5: Terraform Plan
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false -out=tfplan
 
     # Step 6: Terraform Apply (only on push to the main branch)
     - name: Terraform Apply
