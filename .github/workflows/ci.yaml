@@ -70,12 +70,12 @@ jobs:
       run: |-
         docker build -t "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" ./
           
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v0.6.0'
-      with:
-        credentials_json: '${{ secrets.GCP_KEY }}'
-        token_format: 'access_token'
+    # - id: 'auth'
+    - name: Set up GCP authentication
+      id: auth
+      uses: 'google-github-actions/auth@v2'
+      with: 
+        credentials_json: '${{ secrets.GCP_KEY }}'  # Ensure GCP_KEY is set in your repository secrets
 
     # - uses: 'docker/login-action@v1'
     #   name: 'Docker login'
