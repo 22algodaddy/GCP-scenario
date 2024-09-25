@@ -3,10 +3,10 @@ name: 'Terraform with GCP'
 on:
   push:
     branches:
-      - master  # Trigger on push to the main branch
+      - master  # Ensure that this branch name is consistent with your repo
   pull_request:
     branches:
-      - main  # Trigger on pull request to the main branch
+      - master  # Changed to 'master' for consistency with the push trigger
 
 permissions:
   contents: read
@@ -26,7 +26,8 @@ jobs:
       id: auth
       uses: 'google-github-actions/auth@v2'
       with: 
-        credentials_json: '${{ secrets.GCP_KEY }}'
+        credentials_json: '${{ secrets.GCP_KEY }}'  # Ensure GCP_KEY is set in your repository secrets
+
     # Step 3: Install Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -41,7 +42,7 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan
 
-    # Step 6: Terraform Apply (only on push to the main branch)
+    # Step 6: Terraform Apply (only on push to the master branch)
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false tfplan  # Specify the tfplan file
