@@ -1,5 +1,6 @@
 FROM python:3.12
 WORKDIR /usr/src/app
-COPY ./python/* .
+COPY python/requirements.txt .
+COPY python/main.py .
 RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]
