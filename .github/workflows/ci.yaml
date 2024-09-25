@@ -32,5 +32,5 @@ jobs:
     # Step 4: Build the Docker image  
     - name: Build and Push Docker Image
       run: |
-        docker build -t us-west1-docker.pkg.dev/mythic-delight-434312-r1/hello-world:latest ./
-        docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hello-world:latest
+        docker build -t us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest ./
+        docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest
