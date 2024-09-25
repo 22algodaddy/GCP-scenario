@@ -10,7 +10,8 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     defaults:
-      working-directory: terraform  # Specify your working directory
+      run:
+        working-directory: terraform  # Specify your working directory
 
     steps:
     # Step 1: Checkout the repository
