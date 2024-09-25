@@ -1,9 +1,12 @@
-name: 'Terraform with GCP Authentication'
+name: 'Terraform with GCP'
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main  # Trigger on push to the main branch
   pull_request:
+    branches:
+      - main  # Trigger on pull request to the main branch
 
 permissions:
   contents: read
@@ -12,40 +15,34 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
-
-    defaults:
-      run:
-        shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
+    # Step 1: Checkout the repository
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Set up the GCP authentication using the service account key stored in GitHub Secrets
+    # Step 2: Set up GCP Authentication using the service account key
     - name: Set up GCP authentication
-      id: 'auth'
       run: |
-        echo "${{ secrets.GCP_KEY }}" > "${HOME}/gcp-key.json"
+        echo "${{ secrets.GCP_SA_KEY }}" > "${HOME}/gcp-key.json"
         gcloud auth activate-service-account --key-file="${HOME}/gcp-key.json"
-        gcloud config set project "mythic-delight-434312-r1"
+        gcloud config set project "mythic-delight-434312-r1"  # Replace with your GCP project ID
 
-    # Install the latest version of Terraform CLI
+    # Step 3: Install Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        terraform_version: 1.4.6  # You can specify the version you need, or leave it out to use the latest
 
-    # Initialize Terraform
+    # Step 4: Initialize Terraform
     - name: Terraform Init
       run: terraform init
 
-    # Generate a Terraform Plan
+    # Step 5: Terraform Plan
     - name: Terraform Plan
       run: terraform plan -input=false
 
-    # Apply the Terraform Plan on push to master
+    # Step 6: Terraform Apply (only on push to the main branch)
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
