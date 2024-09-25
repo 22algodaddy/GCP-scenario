@@ -9,7 +9,7 @@ terraform {
 
 provider "google" {
   # Configuration options
-  project = "My First Project "
+  project = "mythic-delight-434312-r1"
   region  = "us-west1"
 }
 resource "google_container_registry" "registry" {
