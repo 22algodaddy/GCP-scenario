@@ -29,11 +29,22 @@ jobs:
       run: | 
         gcloud auth configure-docker us-west1-docker.pkg.dev
 
-    # Step 4: Build the Docker image  
-    - name: Build and Push Docker Image
-      run: |
-        docker build -t us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest ./
-        docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest
-    - name: List Docker Images
-      run: |
-        docker images
+    # # Step 4: Build the Docker image  
+    # - name: Build and Push Docker Image
+    #   run: |
+    #     docker build -t us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest ./
+    #     docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops:latest
+    # - name: List Docker Images
+    #   run: |
+    #     docker images
+
+    # Step 5: Push to GCR
+    steps:
+      - uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
+        with:
+       #   gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          registry: gcr.io
+          project_id: mythic-delight-434312-r1
+          image_name: server-end
+          image_tag: latest,v1
+          dockerfile: ./Dockerfile
