@@ -68,7 +68,7 @@ jobs:
 
     - name: 'Docker build'
       run: |-
-        docker build --t "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" ./
+        docker build -t "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" ./
           
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
