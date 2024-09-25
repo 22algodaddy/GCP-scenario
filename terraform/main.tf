@@ -13,5 +13,5 @@ provider "google" {
   region  = "us-west1"
 }
 resource "google_container_registry" "registry" {
-  location = "us-west1"
+  location = "US"
 }
