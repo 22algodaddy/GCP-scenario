@@ -24,7 +24,7 @@ jobs:
     # Step 2: Set up GCP Authentication using the service account key
     - name: Set up GCP authentication
       id: auth
-      uses: 'google-github-actions/auth@v0'
+      uses: 'google-github-actions/auth@v2'
       with: 
         credentials_json: '${{ secrets.GCP_KEY }}'
     # Step 3: Install Terraform CLI
