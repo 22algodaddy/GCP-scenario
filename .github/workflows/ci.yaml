@@ -1,0 +1,36 @@
+name: 'Build Docker Image'
+
+on:
+  push:
+    branches:
+      - master  # Trigger on push to the master branch
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: 'Docker Image'
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Step 2: Set up GCP Authentication using the service account key
+    - name: Set up GCP authentication
+      id: auth
+      uses: 'google-github-actions/auth@v2'
+      with: 
+        credentials_json: '${{ secrets.GCP_KEY }}'  # Ensure GCP_KEY is set in your repository secrets
+
+    # Step 3: Docker Authentication
+    - name: Docker Authentication
+      run: | 
+        gcloud auth configure-docker us-west1-docker.pkg.dev
+
+    # Step 4: Build the Docker image  
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t us-west1-docker.pkg.dev/mythic-delight-434312-r1/hello-world:latest ./
+        docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hello-world:latest
