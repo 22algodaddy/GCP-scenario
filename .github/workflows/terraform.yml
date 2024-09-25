@@ -1,7 +1,11 @@
 name: 'Terraform with GCP'
 
 on:
+  push:
+    branches:
+      - master  # Trigger on push to the master branch
   workflow_dispatch:  # Manual trigger
+
 permissions:
   contents: read
 
@@ -9,9 +13,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: terraform  # Specify your working directory
 
     steps:
     # Step 1: Checkout the repository
@@ -34,11 +35,14 @@ jobs:
     # Step 4: Initialize Terraform
     - name: Terraform Init
       run: terraform init
+      working-directory: terraform  # Specify your working directory
 
     # Step 5: Terraform Plan
     - name: Terraform Plan
       run: terraform plan -input=false -out=tfplan
+      working-directory: terraform  # Specify your working directory
 
     # Step 6: Terraform Apply (only when manually triggered)
     - name: Terraform Apply
       run: terraform apply -auto-approve -input=false tfplan  # Specify the tfplan file
+      working-directory: terraform  # Specify your working directory
