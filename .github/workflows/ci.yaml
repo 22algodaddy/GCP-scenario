@@ -31,11 +31,8 @@ jobs:
         gcloud auth configure-docker us-west1-docker.pkg.dev
 
     # Step 4: Build and Push Docker Image
-    - name: Build and Push to GCR
-      uses: RafikFarhad/push-to-gcr-github-action@v5-rc1
-      with:
-        registry: us-west1-docker.pkg.dev/hu-devops # Ensure the registry format is correct
-        project_id: mythic-delight-434312-r1  # Your GCP project ID
-        image_name: helloworld  # Name of the image you want to create
-        image_tag: latest,v1  # Tags for the image
-        dockerfile: ./Dockerfile  # Path to your Dockerfile
+    - name: Build image
+      run: docker build . --tag us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops/
+
+    - name: Push image
+      run: docker push us-west1-docker.pkg.dev/mythic-delight-434312-r1/hu-devops/
