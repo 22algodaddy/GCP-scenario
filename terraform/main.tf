@@ -9,8 +9,9 @@ terraform {
 
 provider "google" {
   # Configuration options
+  project = "My First Project "
+  region  = "us-west1"
 }
 resource "google_container_registry" "registry" {
-  project  = "My First Project "
   location = "us-west1"
 }
